@@ -1,6 +1,6 @@
-#include "sample/hello_world.hpp"
+#include "sandbox/sample/hello_world.hpp"
 
 int main() {
-    sample::HelloWorld();
+    sandbox::sample::HelloWorld();
     return 0;
 }
