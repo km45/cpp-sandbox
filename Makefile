@@ -33,7 +33,7 @@ build: cmake
 
 .PHONY: test
 test: build
-	$(DOCKER_COMPOSE_EXEC_COMMAND) develop bash -c "cmake --build build --target test"
+	$(DOCKER_COMPOSE_EXEC_COMMAND) develop bash -c "cd build && ctest --verbose"
 
 .PHONY: exec
 exec:
