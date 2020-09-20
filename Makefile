@@ -29,3 +29,9 @@ build: cmake
 .PHONY: exec
 exec:
 	docker-compose exec --user `id -u`:`id -g` develop bash -c "./build/sandbox"
+
+.PHONY: dependencies
+dependencies:
+	rm -rf dependencies
+	mkdir -p dependencies
+	docker-compose exec --user `id -u`:`id -g` develop bash -c "cp -pr submodules/indicators/include/indicators dependencies/"
