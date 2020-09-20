@@ -26,6 +26,10 @@ cmake:
 build: cmake
 	docker-compose exec --user `id -u`:`id -g` develop bash -c "cmake --build build"
 
+.PHONY: test
+test: build
+	docker-compose exec --user `id -u`:`id -g` develop bash -c "cmake --build build --target test"
+
 .PHONY: exec
 exec:
 	docker-compose exec --user `id -u`:`id -g` develop bash -c "./build/sandbox"
