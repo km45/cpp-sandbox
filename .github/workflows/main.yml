@@ -11,6 +11,8 @@ jobs:
       DOCKER_COMPOSE_EXEC_COMMAND_TTY: -T
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: true
       - run: make env-lint
       - run: make env-up
       - run: make dependencies
