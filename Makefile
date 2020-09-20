@@ -1,3 +1,8 @@
+DOCKER_COMPOSE_EXEC_COMMAND_BASE := docker-compose exec
+DOCKER_COMPOSE_EXEC_COMMAND_USER := --user `id -u`:`id -g`
+DOCKER_COMPOSE_EXEC_COMMAND_TTY :=
+DOCKER_COMPOSE_EXEC_COMMAND := $(DOCKER_COMPOSE_EXEC_COMMAND_BASE) $(DOCKER_COMPOSE_EXEC_COMMAND_USER) $(DOCKER_COMPOSE_EXEC_COMMAND_TTY)
+
 .PHONY: env-up
 env-up:
 	docker-compose up -d --build
@@ -12,30 +17,30 @@ env-lint:
 
 .PHONY: env-shell
 env-shell:
-	docker-compose exec --user `id -u`:`id -g` develop bash
+	$(DOCKER_COMPOSE_EXEC_COMMAND) develop bash
 
 .PHONY: clean
 clean:
-	docker-compose exec --user `id -u`:`id -g` develop bash -c "rm -rf build"
+	$(DOCKER_COMPOSE_EXEC_COMMAND) develop bash -c "rm -rf build"
 
 .PHONY: cmake
 cmake:
-	docker-compose exec --user `id -u`:`id -g` develop bash -c "mkdir -p build && cd build && cmake -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .."
+	$(DOCKER_COMPOSE_EXEC_COMMAND) develop bash -c "mkdir -p build && cd build && cmake -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .."
 
 .PHONY: build
 build: cmake
-	docker-compose exec --user `id -u`:`id -g` develop bash -c "cmake --build build"
+	$(DOCKER_COMPOSE_EXEC_COMMAND) develop bash -c "cmake --build build"
 
 .PHONY: test
 test: build
-	docker-compose exec --user `id -u`:`id -g` develop bash -c "cmake --build build --target test"
+	$(DOCKER_COMPOSE_EXEC_COMMAND) develop bash -c "cmake --build build --target test"
 
 .PHONY: exec
 exec:
-	docker-compose exec --user `id -u`:`id -g` develop bash -c "./build/sandbox"
+	$(DOCKER_COMPOSE_EXEC_COMMAND) develop bash -c "./build/sandbox"
 
 .PHONY: dependencies
 dependencies:
 	rm -rf dependencies
 	mkdir -p dependencies
-	docker-compose exec --user `id -u`:`id -g` develop bash -c "cp -pr submodules/indicators/include/indicators dependencies/"
+	$(DOCKER_COMPOSE_EXEC_COMMAND) develop bash -c "cp -pr submodules/indicators/include/indicators dependencies/"
