@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.8)
+project(sandbox)
+file(GLOB_RECURSE exe_sources src/*.cpp)
+add_executable(${PROJECT_NAME} ${exe_sources})
+target_include_directories(${PROJECT_NAME} PRIVATE src)
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_14)

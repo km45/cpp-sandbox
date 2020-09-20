@@ -1,0 +1,9 @@
+---
+version: "3"
+services:
+  develop:
+    build:
+      context: .
+    working_dir: /usr/src/app
+    volumes:
+      - ${PWD}:/usr/src/app
