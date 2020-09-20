@@ -1,0 +1,20 @@
+name: CI
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_COMPOSE_EXEC_COMMAND_TTY: -T
+    steps:
+      - uses: actions/checkout@v2
+      - run: make env-lint
+      - run: make env-up
+      - run: make dependencies
+      - run: make build
+      - run: make test
+      - run: make exec
+      - run: make env-down
